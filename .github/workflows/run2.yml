@@ -47,4 +47,4 @@ jobs:
           area='${{ secrets.AREA }}'
           tg_bot_token='${{ secrets.TG_BOT_TOKEN }}'
           tg_user_id='${{ secrets.TG_USER_ID }}'
-          python3 main2.py ${user} ${passwd} ${position} ${open_get_weather} ${area} ${tg_bot_token} ${tg_user_id}
+          python3 main2.py ${user} ${passwd} ${open_get_weather} ${area} ${tg_bot_token} ${tg_user_id}
