@@ -4,33 +4,19 @@ import requests, time, datetime, re,sys, json, random
 # 设置开始
 # 用户名（格式为 13800138000）
 
-# 酷推skey和server酱sckey和企业微信设置，只用填一个其它留空即可
-skey = sys.argv[3]
-# 推送server酱
-sckey = sys.argv[4]
-# 企业微信推送
-# 是否开启企业微信推送false关闭true开启，默认关闭，开启后请填写设置并将上面两个都留空
-position = sys.argv[5]
-#base_url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?'
-#req_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token='
-#corpid = sys.argv[6]  # 企业ID， 登陆企业微信，在我的企业-->企业信息里查看
-#corpsecret = sys.argv[7]  # 自建应用，每个自建应用里都有单独的secret
-#agentid = sys.argv[8]  # 填写你的应用ID，不加引号，是个整型常数,就是AgentId
-#touser = sys.argv[9]  # 指定接收消息的成员，成员ID列表（多个接收者用‘|’分隔，最多支持1000个）。特殊情况：指定为”@all”，则向该企业应用的全部成员发送
-#toparty = sys.argv[10]  # 指定接收消息的部门，部门ID列表，多个接收者用‘|’分隔，最多支持100个。当touser为”@all”时忽略本参数
-#totag = sys.argv[11]  # 指定接收消息的标签，标签ID列表，多个接收者用‘|’分隔，最多支持100个。当touser为”@all”时忽略本参数
+position = sys.argv[3]
 
 # （用于测试推送如果改了能收到推送，推送设置就没问题，看看是不是set_push列表里面没设置推送，仔细看下面我写的很详细）要修改的步数，直接输入想要修改的步数值，（默认）留空为随机步数，改了这个直接运行固定值（用于测试推送）
 # 测试好记得留空不然一直提交固定步数
 step1 = ""
 
 # 开启根据地区天气情况降低步数（默认关闭）
-open_get_weather = sys.argv[12]
+open_get_weather = sys.argv[4]
 # 设置获取天气的地区（上面开启后必填）如：area = "宁波"
-area = sys.argv[13]
+area = sys.argv[5]
 
-tg_bot_token = sys.argv[14]
-tg_user_id = sys.argv[15]
+tg_bot_token = sys.argv[6]
+tg_user_id = sys.argv[7]
 
 # 以下如果看不懂直接默认就行只需改上面
 
@@ -162,10 +148,7 @@ def getBeijinTime():
                 msg_mi += main(user_mi,passwd_mi,min_1, max_1)
                 #print(msg_mi)
             if a:
-               #push('【小米运动步数修改】', msg_mi)
                push_tg(token, chat_id, msg_mi)
-               #push_wx(msg_mi)
-               #run(msg_mi)
             else:
                print("此次修改结果不推送")
     else:
@@ -289,43 +272,6 @@ def get_app_token(login_token):
     # print(app_token)
     return app_token
 
-
-#发送酷推
-def push(title, content):
-    if skey == "NO":
-        print(skey == "NO")
-        return
-    else:
-        url = "https://push.xuthus.cc/send/" + skey
-        data = title + "\n" + content
-        # 发送请求
-        res = requests.post(url=url, data=data.encode('utf-8')).text
-        # 输出发送结果
-        print(res)
-
-
-# 推送server
-def push_wx(desp=""):
-    if sckey == 'NO':
-        print(sckey == "NO")
-        return
-    else:
-        server_url = f"https://sc.ftqq.com/{sckey}.send"
-        params = {
-            "text": '【小米运动步数修改】',
-            "desp": desp
-        }
-
-        response = requests.get(server_url, params=params).text
-        print(response)
-
-
-# 企业微信
-def get_access_token():
-    urls = base_url + 'corpid=' + corpid + '&corpsecret=' + corpsecret
-    resp = requests.get(urls).json()
-    access_token = resp['access_token']
-    return access_token
 
 # TG
 def push_tg(desp=""):
